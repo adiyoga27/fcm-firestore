@@ -5,6 +5,7 @@ require_once('vendor/autoload.php');
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use Kreait\Firebase\Factory;
+use Kreait\Firebase\Contract\Firestore;
 
 header("Access-Control-Allow-Origin: *"); //allow cors
 header("Content-Type: application/json");
