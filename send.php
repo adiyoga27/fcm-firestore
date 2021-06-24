@@ -6,13 +6,15 @@ use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use Kreait\Firebase\Factory;
 
-$fcm = (new Factory)
-    ->withServiceAccount('firebase_credentials.json');
 header("Access-Control-Allow-Origin: *"); //allow cors
 header("Content-Type: application/json");
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === "POST") {
+
+    $fcm = (new Factory)
+        ->withServiceAccount('firebase_credentials.json');
+
     $imageUrl = $_POST['image'];
     $title = $_POST['title'];
     $body = $_POST['body'];
@@ -24,6 +26,7 @@ if ($method === "POST") {
 
         if ($type != 'Broadcast') {
             $firestore = $fcm->createFirestore();
+            print_r($firestore);
 
             // Menyiman di Firestore
             $db = $firestore->database();
@@ -50,7 +53,6 @@ if ($method === "POST") {
                 $batch->set($db->collection('notification')->add(), $value);
             }
             $result = $batch->commit();
-            print_r($result);
         }
 
 
@@ -66,6 +68,6 @@ if ($method === "POST") {
         $messaging = $fcm->createMessaging();
         $messaging->send($message);
     } catch (\InvalidArgumentException $th) {
-        echo $th;
+        print_r($th);
     }
 }
