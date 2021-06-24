@@ -25,51 +25,49 @@ if ($method === "POST") {
 
     try {
 
-        // if ($type != 'Broadcast') {
-        //     $firestore = $fcm->createFirestore();
+        if ($type != 'Broadcast') {
+            $firestore = $fcm->createFirestore();
 
-        //     // Menyiman di Firestore
-        //     $db = $firestore->database();
-        //     $row = [];
-        //     for ($i = 2; $i < 4; $i++) {
-        //         $data = [
-        //             'action' => 'promo',
-        //             'isActive' => true,
-        //             'message' => $body,
-        //             'topic' => '112211000' . $i
-        //         ];
-        //         if ($action == 'promo') {
-        //             $data['data'] = [
-        //                 'isRead' => false,
-        //                 'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
-        //                 'id' => 27
-        //             ];
-        //         }
-        //         $row[] = $data;
-        //     }
+            // Menyiman di Firestore
+            $db = $firestore->database();
+            $row = [];
+            for ($i = 2; $i < 4; $i++) {
+                $data = [
+                    'action' => 'promo',
+                    'isActive' => true,
+                    'message' => $body,
+                    'topic' => '112211000' . $i
+                ];
+                if ($action == 'promo') {
+                    $data['data'] = [
+                        'isRead' => false,
+                        'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
+                        'id' => 27
+                    ];
+                }
+                $row[] = $data;
+            }
 
-        //     $batch = $db->batch();
-        //     foreach ($row as $value) {
-        //         $batch->set($db->collection('notification')->add(), $value);
-        //     }
-        //     $result = $batch->commit();
-        //     print_r($result);
-        // }
-
-
-        for ($i = 0; $i < 100; $i++) {
-            //Melakukan Send Notification
-            $notification = Notification::fromArray([
-                'title' => $title,
-                'body' => $body,
-                'image' => $imageUrl,
-            ]);
-
-            $message = CloudMessage::withTarget('topic', $topic)
-                ->withNotification($notification);
-            $messaging = $fcm->createMessaging();
-            $messaging->send($message);
+            $batch = $db->batch();
+            foreach ($row as $value) {
+                $batch->set($db->collection('notification')->add(), $value);
+            }
+            $result = $batch->commit();
+            print_r($result);
         }
+
+
+        //Melakukan Send Notification
+        $notification = Notification::fromArray([
+            'title' => $title,
+            'body' => $body,
+            'image' => $imageUrl,
+        ]);
+
+        $message = CloudMessage::withTarget('topic', $topic)
+            ->withNotification($notification);
+        $messaging = $fcm->createMessaging();
+        $messaging->send($message);
     } catch (\InvalidArgumentException $th) {
         echo $th;
     }
