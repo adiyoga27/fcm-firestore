@@ -1,0 +1,6 @@
+{
+    "require": {
+        "kreait/firebase-php": "^5.20",
+        "google/cloud-firestore": "^1.19"
+    }
+}
