@@ -4,10 +4,7 @@ require_once('vendor/autoload.php');
 
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
-use Kreait\Firebase\Messaging\Topic;
 use Kreait\Firebase\Factory;
-use Kreait\Firebase\Firestore;
-use Google\Cloud\Firestore\FirestoreClient;
 
 $fcm = (new Factory)
     ->withServiceAccount('firebase_credentials.json');
