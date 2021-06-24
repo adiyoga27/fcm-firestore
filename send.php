@@ -11,9 +11,6 @@ use Google\Cloud\Firestore\FirestoreClient;
 
 $fcm = (new Factory)
     ->withServiceAccount('firebase_credentials.json');
-$firestore = (new Factory)->withServiceAccount('firebase_credentials.json')->createFirestore();
-
-
 header("Access-Control-Allow-Origin: *"); //allow cors
 header("Content-Type: application/json");
 $method = $_SERVER['REQUEST_METHOD'];
@@ -29,6 +26,8 @@ if ($method === "POST") {
     try {
 
         if ($type != 'Broadcast') {
+            $firestore = $fcm->createFirestore();
+
             // Menyiman di Firestore
             $db = $firestore->database();
             $row = [];
